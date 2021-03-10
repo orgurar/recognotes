@@ -2,6 +2,7 @@ from flask import Flask, request, abort, jsonify
 import flask_utils as utils
 
 import os
+import json
 
 from cerberus import Validator
 from werkzeug.utils import secure_filename
@@ -25,13 +26,14 @@ def proccess_audio():
         'sheets_title': {'type': 'string', 'required': True}
     }
 
-    # read data from POST request as python dict
-    request_data = request.get_data()
+    # # read data from POST request as python dict
+    request_data = request.form['file_data']
+    request_data = json.loads(request_data)
 
-    # validate data
+    # # validate data
     json_validator = Validator(DATA_VALIDATION)
     if not json_validator.validate(request_data):
-       # data is invalid
+        # data is invalid
         abort(400)
 
     if 'file' not in request.files:
@@ -50,6 +52,10 @@ def proccess_audio():
 
     # calling main function
     audio_main(audio_content, sample_rate, False,
-               request_data['bpm'], request_data['title'])
+               request_data['bpm'], request_data['sheets_title'])
+
+    # creating a path for pdf output file
+    wavfile_pdf_path = os.path.join(
+        '.', UPLOADS_DIR, secure_filename(wavfile.name + '.pdf'))
 
     return jsonify('success: success')
