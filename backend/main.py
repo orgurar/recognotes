@@ -31,7 +31,9 @@ def main(audio_signal, sample_rate, plot_output, bpm, title):
     reduced_notes = reducer.notes_reducer(notes)
 
     # write notes to lilypond PDF file
-    gio.proccess_notes(reduced_notes, bpm, title)
+    musical_pdf_path = gio.proccess_notes(reduced_notes, bpm, title)
+
+    return musical_pdf_path
 
 
 if __name__ == "__main__":

@@ -23,14 +23,14 @@ def get_note_type(note_seconds, bpm):
     beats_in_note = note_seconds / each_beat
 
     # get the closest element in NOTES_BEATS list
-    whole_beats_in_note = min(NOTES_BEATS, key=lambda x: abs(x - beats_in_note))
+    whole_beats_in_note = min(
+        NOTES_BEATS, key=lambda x: abs(x - beats_in_note))
 
     # if the value is 0.1, there is no need to play the note
     if whole_beats_in_note == 0.1:
         return None
 
     return whole_beats_in_note
-
 
 
 def proccess_notes(musical_notes, bpm, title):
@@ -58,7 +58,9 @@ def proccess_notes(musical_notes, bpm, title):
             continue
 
     # write the final notes array to output PDF file
-    make_sheets_file(final_notes, bpm, title)
+    musical_pdf_path = make_sheets_file(final_notes, bpm, title)
+
+    return musical_pdf_path
 
 
 def get_abjad_duration(beats):
@@ -103,7 +105,7 @@ def make_sheets_file(notes, bpm, title):
     for i in notes:
         # Duration
         duration = abjad.Duration(get_abjad_duration(i[1]))
-        
+
         # Note can be a note, or empty (rest)
         act = None
         if i[0] == "Empty":
@@ -121,6 +123,7 @@ def make_sheets_file(notes, bpm, title):
     metronome_mark = abjad.MetronomeMark((1, 4), bpm)
     abjad.attach(metronome_mark, staff[0])
 
+    # creates lilypond file object
     lilypond_file = abjad.LilyPondFile.new(staff)
 
     # notes title
@@ -128,3 +131,5 @@ def make_sheets_file(notes, bpm, title):
 
     # show PDF on screen
     abjad.show(lilypond_file)
+
+    print(abjad.Configuration().abjad_output_directory)

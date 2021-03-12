@@ -18,10 +18,10 @@ def get_wav_content(wavfile_path, sample_rate):
     try:
         audio_signal = ne.read_wavfile(wavfile_path, desiered_fs=sample_rate)
     except FileNotFoundError:
-        return {"error": f"Invalid parameter: file {wavfile_path} does not exist"}
+        return {"error": f"Invalid parameter: file {wavfile_path} does not exist"}, None
     except ValueError as wrong_fs:
-        return {"error": f"Invalid file: sample rate does not match {wrong_fs}"}
+        return {"error": f"Invalid file: sample rate does not match {wrong_fs}"}, None
     except:
-        return {"error": "Internal Error"}
+        return {"error": "Internal Error"}, None
 
     return audio_signal, sample_rate

@@ -50,12 +50,14 @@ def proccess_audio():
     audio_content, sample_rate = utils.get_wav_content(
         wavfile_path, request_data['sample_rate'])
 
-    # calling main function
-    audio_main(audio_content, sample_rate, False,
-               request_data['bpm'], request_data['sheets_title'])
+    if 'error' in audio_content:
+        # invalid
+        abort(500)
 
-    # creating a path for pdf output file
-    wavfile_pdf_path = os.path.join(
-        '.', UPLOADS_DIR, secure_filename(wavfile.name + '.pdf'))
+    # calling main function
+    pdf_path = audio_main(audio_content, sample_rate, False,
+                          request_data['bpm'], request_data['sheets_title'])
+
+    # sending back PDF file using its path
 
     return jsonify('success: success')
