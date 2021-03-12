@@ -12,7 +12,7 @@ from main import main as audio_main
 
 
 app = Flask(__name__)
-app.config['UPLOADS_DIR'] = "tmp_wavfiles"
+app.config['UPLOADS_DIR'] = "../tmp_wavfiles"
 
 
 @app.route('/proccess_audio', methods=['POST'])
@@ -43,10 +43,10 @@ def proccess_audio():
     # saving file as a temporary file
     wavfile = request.files['file']
     wavfile_path = os.path.join(
-        '.', app.config['UPLOADS_DIR'], secure_filename(wavfile.name + '.wav'))
+        app.config['UPLOADS_DIR'], secure_filename(wavfile.name + '.wav'))
     # also creates the path for the PDF file
     output_pdf_path = os.path.join(
-        '.', app.config['UPLOADS_DIR'], secure_filename(wavfile.name + '.pdf'))
+        app.config['UPLOADS_DIR'], secure_filename(wavfile.name + '.pdf'))
     wavfile.save(wavfile_path)
 
     # getting the np array of the wav file and fs of the file
