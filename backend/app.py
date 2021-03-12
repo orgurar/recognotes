@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, jsonify
+from flask import Flask, request, abort, jsonify, send_from_directory, send_file
 import flask_utils as utils
 
 import os
@@ -12,7 +12,7 @@ from main import main as audio_main
 
 
 app = Flask(__name__)
-UPLOADS_DIR = "tmp_wavfiles"
+app.config['UPLOADS_DIR'] = "tmp_wavfiles"
 
 
 @app.route('/proccess_audio', methods=['POST'])
@@ -43,21 +43,26 @@ def proccess_audio():
     # saving file as a temporary file
     wavfile = request.files['file']
     wavfile_path = os.path.join(
-        '.', UPLOADS_DIR, secure_filename(wavfile.name + '.wav'))
+        '.', app.config['UPLOADS_DIR'], secure_filename(wavfile.name + '.wav'))
+    # also creates the path for the PDF file
+    output_pdf_path = os.path.join(
+        '.', app.config['UPLOADS_DIR'], secure_filename(wavfile.name + '.pdf'))
     wavfile.save(wavfile_path)
 
     # getting the np array of the wav file and fs of the file
     audio_content, sample_rate = utils.get_wav_content(
         wavfile_path, request_data['sample_rate'])
 
-    if 'error' in audio_content:
+    if type(audio_content) is dict and 'error' in audio_content:
         # invalid
         abort(500)
 
     # calling main function
-    pdf_path = audio_main(audio_content, sample_rate, False,
-                          request_data['bpm'], request_data['sheets_title'])
+    audio_main(audio_content, sample_rate, False,
+               request_data['bpm'], request_data['sheets_title'], wavfile_path)
 
     # sending back PDF file using its path
-
-    return jsonify('success: success')
+    try:
+        return send_file(output_pdf_path)
+    except FileNotFoundError:
+        abort(404)

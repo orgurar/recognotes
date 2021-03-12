@@ -7,7 +7,7 @@ import os
 import argparse
 
 
-def main(audio_signal, sample_rate, plot_output, bpm, title):
+def main(audio_signal, sample_rate, plot_output, bpm, title, pdf_path=None):
     '''
     Recognotes' main function!
     this function will manage the notes detection procces from recording to creating the output PDF file.
@@ -31,9 +31,7 @@ def main(audio_signal, sample_rate, plot_output, bpm, title):
     reduced_notes = reducer.notes_reducer(notes)
 
     # write notes to lilypond PDF file
-    musical_pdf_path = gio.proccess_notes(reduced_notes, bpm, title)
-
-    return musical_pdf_path
+    gio.proccess_notes(reduced_notes, bpm, title, pdf_path)
 
 
 if __name__ == "__main__":

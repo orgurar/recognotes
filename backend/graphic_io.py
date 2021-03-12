@@ -33,7 +33,7 @@ def get_note_type(note_seconds, bpm):
     return whole_beats_in_note
 
 
-def proccess_notes(musical_notes, bpm, title):
+def proccess_notes(musical_notes, bpm, title, pdf_path):
     '''
     This is the 'main' function of the module, it will take the reduced notes,
     format it and its duration, and write it to a lilypond file.
@@ -58,9 +58,7 @@ def proccess_notes(musical_notes, bpm, title):
             continue
 
     # write the final notes array to output PDF file
-    musical_pdf_path = make_sheets_file(final_notes, bpm, title)
-
-    return musical_pdf_path
+    make_sheets_file(final_notes, bpm, title, pdf_path)
 
 
 def get_abjad_duration(beats):
@@ -85,7 +83,7 @@ def get_abjad_duration(beats):
     return BEATS_TO_NOTE_TYPE[beats]
 
 
-def make_sheets_file(notes, bpm, title):
+def make_sheets_file(notes, bpm, title, pdf_path):
     '''
     Function will take the final notes data and write it to a PDF file using lilypond wrapper .
 
@@ -129,7 +127,9 @@ def make_sheets_file(notes, bpm, title):
     # notes title
     lilypond_file.header_block.title = abjad.Markup(title)
 
+    # set location of output PDF file
+    if pdf_path is not None:
+        abjad.persist.as_pdf(lilypond_file, pdf_path)
     # show PDF on screen
-    abjad.show(lilypond_file)
-
-    print(abjad.Configuration().abjad_output_directory)
+    else:
+        abjad.show(lilypond_file)
