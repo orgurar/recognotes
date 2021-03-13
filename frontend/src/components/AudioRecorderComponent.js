@@ -7,7 +7,7 @@ import AudioReactRecorder, { RecordState } from "audio-react-recorder";
 
 function AudioRecorder(props) {
   const [recordState, setRecordState] = useState(null);
-  const [blobWavFileURL, setBlobWavFileURL] = useState("");
+  const [wavfileBlob, setWavfileBlob] = useState({});
 
   const [sampleRate, setSampleRate] = useState(0);
   const [bpm, setBpm] = useState(0);
@@ -21,16 +21,17 @@ function AudioRecorder(props) {
     setRecordState(RecordState.STOP);
   };
 
-  const saveRecordingURL = (audioData) => {
+  const saveRecording = (audioData) => {
     //audioData contains blob and blobUrl
-    setBlobWavFileURL(audioData.url);
+    setWavfileBlob(audioData);
   };
 
   const submitForm = (event) => {
     event.preventDefault();
+
     // first of all, create the wav file from the blob
     const fileName = Math.random().toString(36).substring(6) + "_name.wav"; // random
-    const wavFile = new File(blobWavFileURL, fileName);
+    const wavFile = new File([wavfileBlob.blob], fileName);
 
     // creating form data to contain file
     const formData = new FormData();
@@ -38,18 +39,23 @@ function AudioRecorder(props) {
     // attach wav file to form data
     formData.append("file", wavFile);
 
-    // now attach music's metadata
-    const fileDataObject = {
-      sample_rate: sampleRate,
-      bpm: bpm,
-      sheets_title: sheetsTitle,
-    };
-    formData.append("file_data", fileDataObject);
+    // strings are easier to send and recieve via form data
+    const fileDataString = `{
+      "sample_rate": ${sampleRate},
+      "bpm": ${bpm},
+      "sheets_title": "${sheetsTitle}"
+    }`;
+    formData.append("file_data", fileDataString);
 
     axios
-      .post(`${serverURL}/proccess_audio`, formData)
+      .post(`${serverURL}/proccess_audio`, formData, { responseType: "blob" })
       .then((response) => {
         console.log(response);
+        const file = new Blob([response.data], { type: "application/pdf" });
+        //Build a URL from the file
+        const fileURL = URL.createObjectURL(file);
+        //Open the URL on new Window
+        window.open(fileURL);
       })
       .catch((error) => {
         console.error(error);
@@ -58,7 +64,7 @@ function AudioRecorder(props) {
 
   return (
     <div>
-      <AudioReactRecorder state={recordState} onStop={saveRecordingURL} />
+      <AudioReactRecorder state={recordState} onStop={saveRecording} />
 
       <button onClick={startRecording}>Start</button>
       <button onClick={stopRecording}>Stop</button>

@@ -1,4 +1,5 @@
 from flask import Flask, request, abort, jsonify, send_from_directory, send_file
+from flask_cors import CORS
 import flask_utils as utils
 
 import os
@@ -7,30 +8,33 @@ import json
 from cerberus import Validator
 from werkzeug.utils import secure_filename
 
-# import noise_engine as ne
+# main function from recognotes
 from main import main as audio_main
 
 
 app = Flask(__name__)
+CORS(app)
+
 app.config['UPLOADS_DIR'] = "../tmp_wavfiles"
 
 
 @app.route('/proccess_audio', methods=['POST'])
 def proccess_audio():
     '''
+    Function Description Here
     '''
-    # make a schema and validate data
+    # make a schema in order to validate JSON request data
     DATA_VALIDATION = {
         'sample_rate': {'type': 'integer', 'required': True},
         'bpm': {'type': 'integer', 'required': True},
         'sheets_title': {'type': 'string', 'required': True}
     }
 
-    # # read data from POST request as python dict
+    # read data from POST request as python dict
     request_data = request.form['file_data']
     request_data = json.loads(request_data)
 
-    # # validate data
+    # validate data
     json_validator = Validator(DATA_VALIDATION)
     if not json_validator.validate(request_data):
         # data is invalid
