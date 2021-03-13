@@ -65,6 +65,7 @@ function AudioRecorder(props) {
   const [wavfileBlob, setWavfileBlob] = useState({});
 
   const [isRecording, setIsRecording] = useState(false);
+  // const [uiLoading, setUiLoading] = useState(false);
 
   const [sampleRate, setSampleRate] = useState(44100);
   const [bpm, setBpm] = useState(120);
@@ -83,11 +84,13 @@ function AudioRecorder(props) {
   const saveRecording = (audioData) => {
     //audioData contains blob and blobUrl
     setWavfileBlob(audioData);
-    setSheetsTitle("new title");
   };
 
   const submitForm = (event) => {
     event.preventDefault();
+
+    // setUiLoading(true)
+    setSheetsTitle("new title");
 
     // first of all, create the wav file from the blob
     const fileName = Math.random().toString(36).substring(6) + "_name.wav"; // random
@@ -115,10 +118,12 @@ function AudioRecorder(props) {
         //Build a URL from the file
         const fileURL = URL.createObjectURL(file);
         //Open the URL on new Window
+        // setUiLoading(false);
         window.open(fileURL);
       })
       .catch((error) => {
         console.error(error);
+        // setUiLoading(false);
       });
   };
 
@@ -151,11 +156,11 @@ function AudioRecorder(props) {
       >
         <Grid
           item
-          style={{
-            position: "absolute",
-            right: 100,
-            top: 250,
-          }}
+          // style={{
+          //   position: "absolute",
+          //   right: 100,
+          //   top: 250,
+          // }}
         >
           <AudioReactRecorder
             state={recordState}
@@ -167,11 +172,11 @@ function AudioRecorder(props) {
         </Grid>
         <Grid
           item
-          style={{
-            position: "absolute",
-            right: 300,
-            top: 410,
-          }}
+          // style={{
+          //   position: "absolute",
+          //   right: 300,
+          //   top: 410,
+          // }}
         >
           {isRecording ? (
             <Button onClick={stopRecording} className={classes.formButton}>
@@ -196,11 +201,11 @@ function AudioRecorder(props) {
           <Grid
             item
             className={classes.gridColItem}
-            style={{
-              position: "absolute",
-              left: 300,
-              top: 410,
-            }}
+            // style={{
+            //   position: "absolute",
+            //   left: 300,
+            //   top: 410,
+            // }}
           >
             <CssTextField
               label="BPM"
@@ -218,11 +223,11 @@ function AudioRecorder(props) {
           <Grid
             item
             className={classes.gridColItem}
-            style={{
-              position: "absolute",
-              left: 300,
-              top: 480,
-            }}
+            // style={{
+            //   position: "absolute",
+            //   left: 300,
+            //   top: 480,
+            // }}
           >
             <CssTextField
               label="Sample Rate"
@@ -236,15 +241,7 @@ function AudioRecorder(props) {
               }}
             />
           </Grid>
-          <Grid
-            item
-            className={classes.gridColItem}
-            style={{
-              position: "absolute",
-              left: 360,
-              top: 548,
-            }}
-          >
+          <Grid item className={classes.gridColItem}>
             <Button type="submit" className={classes.formButton}>
               Submit
             </Button>
