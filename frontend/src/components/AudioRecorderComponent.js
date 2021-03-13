@@ -1,29 +1,89 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-import { serverURL } from "../utils/serverInfo";
-
 import AudioReactRecorder, { RecordState } from "audio-react-recorder";
 
+import { Typography, Grid, Button, TextField } from "@material-ui/core";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
+
+import { serverURL } from "../utils/serverInfo";
+
+const useStyles = makeStyles({
+  root: {
+    marginTop: 10,
+  },
+  formButton: {
+    width: 100,
+    fontSize: 18,
+    backgroundColor: "rgb(245,211,114)",
+    color: "white",
+    borderRadius: 25,
+  },
+  whiteColored: {
+    color: "white",
+  },
+  inputBase: {
+    borderColor: "rgb(230,171,65)",
+    height: "6vh",
+    padding: 5,
+  },
+  gridColItem: {
+    marginTop: 15,
+  },
+});
+
+const CssTextField = withStyles({
+  root: {
+    "& label": {
+      color: "white",
+    },
+    "& label.Mui-focused": {
+      color: "white",
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "white",
+    },
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "white",
+        borderRadius: 50,
+      },
+      "&:hover fieldset": {
+        borderColor: "white",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "white",
+      },
+    },
+  },
+})(TextField);
+
 function AudioRecorder(props) {
+  const classes = useStyles();
+
   const [recordState, setRecordState] = useState(null);
   const [wavfileBlob, setWavfileBlob] = useState({});
 
-  const [sampleRate, setSampleRate] = useState(0);
-  const [bpm, setBpm] = useState(0);
+  const [isRecording, setIsRecording] = useState(false);
+
+  const [sampleRate, setSampleRate] = useState(44100);
+  const [bpm, setBpm] = useState(120);
   const [sheetsTitle, setSheetsTitle] = useState("");
 
   const startRecording = () => {
     setRecordState(RecordState.START);
+    setIsRecording(true);
   };
 
   const stopRecording = () => {
     setRecordState(RecordState.STOP);
+    setIsRecording(false);
   };
 
   const saveRecording = (audioData) => {
     //audioData contains blob and blobUrl
     setWavfileBlob(audioData);
+    setSheetsTitle("new title");
   };
 
   const submitForm = (event) => {
@@ -50,7 +110,7 @@ function AudioRecorder(props) {
     axios
       .post(`${serverURL}/proccess_audio`, formData, { responseType: "blob" })
       .then((response) => {
-        console.log(response);
+        // save response as PDF blob
         const file = new Blob([response.data], { type: "application/pdf" });
         //Build a URL from the file
         const fileURL = URL.createObjectURL(file);
@@ -63,58 +123,135 @@ function AudioRecorder(props) {
   };
 
   return (
-    <div>
-      <AudioReactRecorder state={recordState} onStop={saveRecording} />
+    <Grid
+      container
+      spacing={2}
+      direction="column"
+      alignItems="center"
+      justify="center"
+      className={classes.root}
+    >
+      <Grid item>
+        <Typography
+          variant="h1"
+          className={classes.whiteColored}
+          style={{ marginRight: 28, fontWeight: "bold" }}
+        >
+          <span style={{ color: "rgb(191,234,230)" }}>Recog</span>
+          <span style={{ color: "rgb(246,185,184)" }}>Notes</span>
+        </Typography>
+      </Grid>
 
-      <button onClick={startRecording}>Start</button>
-      <button onClick={stopRecording}>Stop</button>
-
-      <br />
-      <br />
+      <Grid
+        item
+        container
+        direction="column"
+        alignItems="center"
+        justify="center"
+      >
+        <Grid
+          item
+          style={{
+            position: "absolute",
+            right: 100,
+            top: 250,
+          }}
+        >
+          <AudioReactRecorder
+            state={recordState}
+            onStop={saveRecording}
+            canvasHeight={150}
+            foregroundColor="rgb(190,226,222)"
+            backgroundColor="rgb(246,185,184)"
+          />
+        </Grid>
+        <Grid
+          item
+          style={{
+            position: "absolute",
+            right: 300,
+            top: 410,
+          }}
+        >
+          {isRecording ? (
+            <Button onClick={stopRecording} className={classes.formButton}>
+              Stop
+            </Button>
+          ) : (
+            <Button onClick={startRecording} className={classes.formButton}>
+              Start
+            </Button>
+          )}
+        </Grid>
+      </Grid>
 
       <form onSubmit={submitForm} noValidate>
-        <label>
-          Sample Rate:
-          <input
-            type="text"
-            value={sampleRate}
-            onChange={(event) => {
-              setSampleRate(event.target.value);
+        <Grid
+          item
+          container
+          direction="column"
+          alignItems="center"
+          justify="center"
+        >
+          <Grid
+            item
+            className={classes.gridColItem}
+            style={{
+              position: "absolute",
+              left: 300,
+              top: 410,
             }}
-          />
-        </label>
-        <br />
-        <br />
+          >
+            <CssTextField
+              label="BPM"
+              variant="outlined"
+              value={bpm}
+              onChange={(event) => {
+                setBpm(event.target.value);
+              }}
+              InputProps={{
+                className: classes.whiteColored,
+              }}
+            />
+          </Grid>
 
-        <label>
-          BPM:
-          <input
-            type="text"
-            value={bpm}
-            onChange={(event) => {
-              setBpm(event.target.value);
+          <Grid
+            item
+            className={classes.gridColItem}
+            style={{
+              position: "absolute",
+              left: 300,
+              top: 480,
             }}
-          />
-        </label>
-        <br />
-        <br />
-
-        <label>
-          Sheets Title:
-          <input
-            type="text"
-            value={sheetsTitle}
-            onChange={(event) => {
-              setSheetsTitle(event.target.value);
+          >
+            <CssTextField
+              label="Sample Rate"
+              variant="outlined"
+              value={sampleRate}
+              onChange={(event) => {
+                setSampleRate(event.target.value);
+              }}
+              InputProps={{
+                className: classes.whiteColored,
+              }}
+            />
+          </Grid>
+          <Grid
+            item
+            className={classes.gridColItem}
+            style={{
+              position: "absolute",
+              left: 360,
+              top: 548,
             }}
-          />
-        </label>
-        <br />
-        <br />
-
-        <input type="submit" />
+          >
+            <Button type="submit" className={classes.formButton}>
+              Submit
+            </Button>
+          </Grid>
+        </Grid>
       </form>
-    </div>
+    </Grid>
   );
 }
 
