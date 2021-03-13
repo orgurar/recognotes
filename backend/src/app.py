@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, jsonify, send_from_directory, send_file
+from flask import Flask, request, abort, jsonify, send_file
 from flask_cors import CORS
 import flask_utils as utils
 
@@ -63,7 +63,7 @@ def proccess_audio():
 
     # calling main function
     audio_main(audio_content, sample_rate, False,
-               request_data['bpm'], request_data['sheets_title'], wavfile_path)
+               request_data['bpm'], request_data['sheets_title'], output_pdf_path)
 
     # sending back PDF file using its path
     try:
