@@ -1,7 +1,23 @@
 html {
-  background: url(../img/main-bg.jpg) no-repeat center center fixed;
+  background: url(../img/maina-blur.jpg) no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+
+  /* Add the blur effect */
+  /* filter: blur(1px);
+  -webkit-filter: blur(1px);
+
+  Center and scale the image nicely 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover; */
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
 }
