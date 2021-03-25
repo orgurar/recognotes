@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { Document } from "react-pdf";
+import React, {useState, useEffect} from "react";
+import {Document} from "react-pdf";
 
 import Swal from "sweetalert2";
 
-import AudioReactRecorder, { RecordState } from "audio-react-recorder";
+import AudioReactRecorder, {RecordState} from "audio-react-recorder";
 
 import AudioSubmitDialogComponent from "./AudioSubmitDialogComponent";
 
-import { Typography, Grid, Button, Badge, IconButton } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import {Typography, Grid, Button, Badge, IconButton} from "@material-ui/core";
+import {makeStyles} from "@material-ui/core/styles";
 
 import MicIcon from "@material-ui/icons/Mic";
 import MicOffIcon from "@material-ui/icons/MicOff";
@@ -21,6 +21,10 @@ const useStyles = makeStyles({
     marginTop: 10,
   },
   formButton: {
+    position: "absolute",
+    margin: "auto",
+    left: 0,
+    right: 0,
     backgroundColor: "white",
     color: "black",
     "&:hover": {
@@ -34,6 +38,7 @@ const useStyles = makeStyles({
   },
   whiteColored: {
     color: "white",
+    textAlign: "center"
   },
   inputBase: {
     borderColor: "rgb(230,171,65)",
@@ -65,7 +70,7 @@ const useStyles = makeStyles({
 });
 
 function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
+  const {innerWidth: width, innerHeight: height} = window;
   return {
     width,
     height,
@@ -74,7 +79,7 @@ function getWindowDimensions() {
 
 function useWindowDimensions() {
   const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
+      getWindowDimensions()
   );
 
   useEffect(() => {
@@ -92,7 +97,7 @@ function useWindowDimensions() {
 function AudioRecorder(props) {
   const classes = useStyles();
 
-  const { width } = useWindowDimensions();
+  const {width} = useWindowDimensions();
 
   const [hasRecorded, setHasRecorded] = useState(false);
 
@@ -145,91 +150,61 @@ function AudioRecorder(props) {
   };
 
   return (
-    <div className="root">
-      <>
-        <Grid
-          container
-          spacing={2}
-          direction="column"
-          alignItems="center"
-          justify="center"
-          className={classes.root}
+      <div className="root">
+
+        <Typography
+            variant="h4"
+            className={classes.whiteColored}
         >
-          <Grid item>
-            <Typography
-              variant="h1"
-              className={classes.whiteColored}
-              style={{ fontWeight: "bold" }}
-            >
-              RecogNotes
-            </Typography>
-            <Typography variant="h6" className={classes.whiteColored}>
-              Press <MicIcon style={{ fontSize: 20 }} /> to Start Recording
-            </Typography>
-          </Grid>
+          RecogNotes
+        </Typography>
+        <Typography variant="h6" className={classes.whiteColored}>
+          Press
+          <MicIcon style={{fontSize: 20}}/>
+          to Start Recording
+        </Typography>
 
-          <Button
-            className={classes.submitButton}
-            endIcon={<ArrowRightAlt style={{ fontSize: 30, marginTop: -4 }} />}
-            onClick={() => setDialogOpen(true)}
-          >
-            I'm Ready
-          </Button>
-
-          <Grid
-            item
-            container
-            direction="column"
-            alignItems="left"
-            justify="left"
-          >
-            <Grid item style={{ left: 0, marginTop: "10%" }}>
-              <AudioReactRecorder
-                state={recordState}
-                onStop={saveRecording}
-                canvasHeight={150}
-                canvasWidth={getScreenSize(0.64)}
-                foregroundColor="white"
-                backgroundColor="#191919"
-              />
-            </Grid>
-          </Grid>
-
-          <Grid item>
-            {isRecording ? (
-              <IconButton
-                onClick={stopRecording}
-                className={classes.formButton}
-              >
-                <MicOffIcon className={classes.recordButtonIcon} />
-              </IconButton>
-            ) : (
-              <Badge variant="dot" color="primary" invisible={!hasRecorded}>
-                <IconButton
-                  onClick={startRecording}
-                  className={classes.formButton}
-                >
-                  <MicIcon className={classes.recordButtonIcon} />
-                </IconButton>
-              </Badge>
-            )}
-          </Grid>
-        </Grid>
-
-        <AudioSubmitDialogComponent
-          open={dialogOpen}
-          onClose={() => {
-            setDialogOpen(false);
-          }}
-          bpm={bpm}
-          sampleRate={sampleRate}
-          wavfileBlob={wavfileBlob}
-          onLinkReady={onLinkReady}
+        <AudioReactRecorder
+            state={recordState}
+            onStop={saveRecording}
+            canvasHeight={150}
+            canvasWidth={getScreenSize(0.64)}
+            foregroundColor="white"
+            backgroundColor="#191919"
         />
 
-        {pdfReady && <Document file={pdfLink} />}
-      </>
-    </div>
+
+        {isRecording ? (
+            <IconButton
+                onClick={stopRecording}
+                className={classes.formButton}
+            >
+              <MicOffIcon className={classes.recordButtonIcon}/>
+            </IconButton>
+        ) : (
+            <Badge variant="dot" color="primary" invisible={!hasRecorded}>
+              <IconButton
+                  onClick={startRecording}
+                  className={classes.formButton}
+              >
+                <MicIcon className={classes.recordButtonIcon}/>
+              </IconButton>
+            </Badge>
+        )}
+
+        <AudioSubmitDialogComponent
+            open={dialogOpen}
+            onClose={() => {
+              setDialogOpen(false);
+            }}
+            bpm={bpm}
+            sampleRate={sampleRate}
+            wavfileBlob={wavfileBlob}
+            onLinkReady={onLinkReady}
+        />
+
+        {pdfReady && <Document file={pdfLink}/>}
+      </div>
   );
 }
 
