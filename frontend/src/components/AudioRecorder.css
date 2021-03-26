@@ -1,7 +1,5 @@
 .root {
   font-family: sans-serif;
-  padding: 4em 1em;
-  position: relative;
 }
 
 .recorder {
@@ -13,4 +11,19 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.swal-confirm {
+  background-color: #191919;
+}
+
+.swal-buttons {
+  background-color: white;
+  color: "#191919";
+  border-radius: 10px;
+}
+
+.swal-btn-text {
+  color: "white";
+  border-radius: 10px;
 }

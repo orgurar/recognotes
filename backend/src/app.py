@@ -59,6 +59,7 @@ def proccess_audio():
 
     if type(audio_content) is dict and 'error' in audio_content:
         # invalid
+        print(audio_content['error'])
         abort(500)
 
     # calling main function
