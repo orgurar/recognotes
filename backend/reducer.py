@@ -1,6 +1,7 @@
 # empty note representation
 EMPTY_NOTE = ["Empty", 0.0]
 
+
 def notes_reducer(notes_array):
     '''
     Function will host the notes reduction, it will run all the algorithms on it.
@@ -36,6 +37,7 @@ def notes_reducer(notes_array):
 
     return new_notes
 
+
 def reduce_by_straight_values(notes_array):
     '''
     Function will reduce the notes array by combining notes.
@@ -43,7 +45,7 @@ def reduce_by_straight_values(notes_array):
 
     Parameters:
         notes_array (list): list of notes to reduce. 
-    
+
     Return:
         a new list of notes (at the same format), but reduced.
     '''
@@ -53,7 +55,7 @@ def reduce_by_straight_values(notes_array):
     curr_note = None
 
     final_list = []
-    
+
     i = 0
     while i < len(notes_array):
         # checks is the notes sequence continues
@@ -121,7 +123,7 @@ def reduce_by_min_time(notes_array, last_end_time, time_limit=0.1):
     else:
         reduced_notes.append((EMPTY_NOTE, notes_array[-1][1]))
 
-    # edge case: if the first note doesn't start on time 0, we have to pad it by a rest 
+    # edge case: if the first note doesn't start on time 0, we have to pad it by a rest
     if reduced_notes[0][1] != 0:
         start_rest = tuple((EMPTY_NOTE, 0.0))
         reduced_notes.insert(0, start_rest)

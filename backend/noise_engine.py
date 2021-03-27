@@ -1,8 +1,7 @@
 import numpy as np
-import sounddevice as sd
+# import sounddevice as sd
 
-import pyaudio
-import wave
+# import wave
 from scipy.io import wavfile
 
 import math
@@ -11,10 +10,12 @@ import math
 SIGNAL_COEFFICIENT = 2 * np.pi
 FS_SAMPLE_RATE = 8192  # Recording default sampling rate, in Hz, must be integer
 
-RECORD_FORMAT = pyaudio.paInt16
 
+# FUNCTION NOT IN USE!
+"""def record_mic_audio(fs, filename='user_input.wav', chunk_size=1024, record_channels=1):
+    import pyaudio
+    RECORD_FORMAT = pyaudio.paInt16
 
-def record_mic_audio(fs, filename='user_input.wav', chunk_size=1024, record_channels=1):
     '''
     function will record sound for a arbitary time and save the record in a wav file
 
@@ -79,7 +80,7 @@ def record_mic_audio(fs, filename='user_input.wav', chunk_size=1024, record_chan
     wf.close()
 
     # convert and return the numpy array
-    return read_wavfile(filename, fs)
+    return read_wavfile(filename, fs)"""
 
 
 def read_wavfile(filename, desiered_fs):
@@ -103,7 +104,8 @@ def read_wavfile(filename, desiered_fs):
     return signal
 
 
-def compute_fft(signal, fs):
+# FUNCTIONS NOT IN USE
+"""def compute_fft(signal, fs):
     '''
     function will compute the FFT of a given signal and its Power Spectral Graph
 
@@ -183,7 +185,7 @@ def extract_notes(signal_PSD, freq_vector):
     # translating frequency (Hz) to musical note
     musical_note = frequency_to_note(primary_frequency)
 
-    return musical_note, primary_frequency
+    return musical_note, primary_frequency"""
 
 
 def frequency_to_note(frequency):

@@ -1,10 +1,8 @@
 import graphic_io as gio
 import connector
 import reducer
-from args_parser import parse_audio_args
 
 import os
-import argparse
 
 
 def main(audio_signal, sample_rate, plot_output, bpm, title, pdf_path=None):
@@ -32,25 +30,3 @@ def main(audio_signal, sample_rate, plot_output, bpm, title, pdf_path=None):
 
     # write notes to lilypond PDF file
     gio.proccess_notes(reduced_notes, bpm, title, pdf_path)
-
-
-if __name__ == "__main__":
-    # parse main args
-    parser = argparse.ArgumentParser(
-        description='Analyze audio signals and notes detection.')
-    parser.add_argument('-f', '--file', help='input wavfile')
-    parser.add_argument('-s', '--sample-rate', type=int, default=8192)
-    parser.add_argument('-p', '--plot', dest='plot_output', action='store_const', const=True,
-                        default=False, help='plot chunks output')
-
-    # exctracting user specified arguments
-    args = parser.parse_args()
-
-    # get BPM and musical sheets title
-    bpm = int(input("Enter BPM: "))
-    title = str(input("Enter Title: "))
-
-    audio_signal, sample_rate, plot_output = parse_audio_args(args)
-
-    # calling main function with parameters
-    main(audio_signal, sample_rate, plot_output, bpm, title)

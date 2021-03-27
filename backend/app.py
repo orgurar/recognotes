@@ -1,4 +1,4 @@
-from flask import Flask, request, abort, jsonify, send_file
+from flask import Flask, request, abort, jsonify, send_file, send_from_directory
 from flask_cors import CORS
 import flask_utils as utils
 
@@ -13,9 +13,15 @@ from main import main as audio_main
 
 
 app = Flask(__name__)
+# app = Flask(__name__, static_url_path='', static_folder='build')
 CORS(app)
 
-app.config['UPLOADS_DIR'] = "../tmp_wavfiles"
+app.config['UPLOADS_DIR'] = "./tmp_wavfiles"
+
+
+# @app.route("/", defaults={'path': ''})
+# def serve(path):
+# return send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route('/proccess_audio', methods=['POST'])
