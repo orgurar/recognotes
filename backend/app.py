@@ -12,16 +12,16 @@ from werkzeug.utils import secure_filename
 from main import main as audio_main
 
 
-app = Flask(__name__, static_url_path='', static_folder='build')
-# app = Flask(__name__)
-# CORS(app)
+# app = Flask(__name__, static_url_path='', static_folder='build')
+app = Flask(__name__)
+CORS(app)
 
 app.config['UPLOADS_DIR'] = "./tmp_wavfiles"
 
 
-@app.route("/", defaults={'path': ''})
-def serve(path):
-    return send_from_directory(app.static_folder, 'index.html')
+# @app.route("/", defaults={'path': ''})
+# def serve(path):
+# return send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route('/proccess_audio', methods=['POST'])
