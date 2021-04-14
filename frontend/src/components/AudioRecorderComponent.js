@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 
 import { serverURL } from "../utils/serverInfo";
+import useWindowDimensions from "../utils/windowDimensions";
 
 import Swal from "sweetalert2";
 
@@ -12,6 +13,8 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 
 import MicIcon from "@material-ui/icons/Mic";
 import StopIcon from "@material-ui/icons/Stop";
+
+import Metronome from "@kevinorriss/react-metronome";
 
 import "./AudioRecorder.css";
 
@@ -52,7 +55,7 @@ const CssTextField = withStyles({
     "& .MuiOutlinedInput-root": {
       "& fieldset": {
         borderColor: "white",
-        borderRadius: 50, // <div className="root" style={{ filter: "blur(0px)" }}>
+        borderRadius: 50,
       },
       "&.Mui-focused fieldset": {
         borderColor: "white",
@@ -61,38 +64,12 @@ const CssTextField = withStyles({
   },
 })(TextField);
 
-function getWindowDimensions() {
-  const { innerWidth: width, innerHeight: height } = window;
-  return {
-    width,
-    height,
-  };
-}
-
-function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(
-    getWindowDimensions()
-  );
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowDimensions;
-}
-
 function AudioRecorder(props) {
   const classes = useStyles();
 
   const { width } = useWindowDimensions();
 
   const [recordState, setRecordState] = useState(null);
-
   const [isRecording, setIsRecording] = useState(false);
 
   const [sampleRate, setSampleRate] = useState(44100);
@@ -111,7 +88,6 @@ function AudioRecorder(props) {
   const saveRecording = (audioData) => {
     //audioData contains blob and blobUrl
     setSampleRate(44100);
-    setBpm(120);
 
     Swal.fire({
       // Swal properties
@@ -180,7 +156,7 @@ function AudioRecorder(props) {
   };
 
   return (
-    <div>
+    <div class="root">
       <Typography variant="h2" className={classes.whiteColored}>
         RecogNotes
       </Typography>
@@ -214,23 +190,23 @@ function AudioRecorder(props) {
         // }}
       />
 
-      <div style={{ height: "15vh" }}>
-        <br />
+      <div style={{ marginTop: "15vh" }}>
+        {isRecording ? (
+          <IconButton onClick={stopRecording} className={classes.formButton}>
+            <StopIcon className={classes.recordButtonIcon} />
+          </IconButton>
+        ) : (
+          <IconButton onClick={startRecording} className={classes.formButton}>
+            <MicIcon className={classes.recordButtonIcon} />
+          </IconButton>
+        )}
       </div>
-
-      {isRecording ? (
-        <IconButton onClick={stopRecording} className={classes.formButton}>
-          <StopIcon className={classes.recordButtonIcon} />
-        </IconButton>
-      ) : (
-        <IconButton onClick={startRecording} className={classes.formButton}>
-          <MicIcon className={classes.recordButtonIcon} />
-        </IconButton>
-      )}
 
       <div style={{ height: "25vh" }}>
         <br />
       </div>
+
+      {/* <Metronome /> */}
 
       <AudioReactRecorder
         state={recordState}
