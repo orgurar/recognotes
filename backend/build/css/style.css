@@ -6,16 +6,15 @@ html {
   background-size: cover;
 }
 
-/* html, */
-/* body { */
-/* margin: 0; */
-/* margin: 0; */
-/* height: 100%; */
-/* overflow: hidden; */
-/* } */
+/* html,
+body {
+margin: 0;
+margin: 0;
+height: 100%;
+} */
 
 html {
-  min-height: 100%;
+  height: 100%;
 }
 
 body {

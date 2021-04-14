@@ -1,0 +1,22 @@
+#root,
+#root > div {
+  font-family: sans-serif;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  padding: 1vh 0px;
+}
+
+#root > #row {
+  flex-direction: row;
+}
+
+.no-margin {
+  padding: 0px !important;
+  position: absolute;
+  top: 5%;
+  left: 3%;
+}

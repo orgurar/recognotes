@@ -1,29 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 
 import { serverURL } from "../utils/serverInfo";
+
 import useWindowDimensions from "../utils/windowDimensions";
+import CssTextField from "./CssTextField";
+import IOSSwitch from "./IOSSwitch";
 
 import Swal from "sweetalert2";
 
 import AudioReactRecorder, { RecordState } from "audio-react-recorder";
 
-import { Typography, IconButton, TextField } from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { Typography, IconButton } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 
 import MicIcon from "@material-ui/icons/Mic";
 import StopIcon from "@material-ui/icons/Stop";
 
-import Metronome from "@kevinorriss/react-metronome";
+import Metronome from "./Metronome";
 
-import "./AudioRecorder.css";
+import "./css/AudioRecorder.css";
+import "./css/swal.css";
 
 const useStyles = makeStyles({
   formButton: {
-    position: "absolute",
-    margin: "auto",
-    left: 0,
-    right: 0,
     backgroundColor: "white",
     color: "black",
     "&:hover": {
@@ -37,34 +37,11 @@ const useStyles = makeStyles({
   },
   whiteColored: {
     color: "white",
-    textAlign: "center",
   },
 });
 
-const CssTextField = withStyles({
-  root: {
-    "& label": {
-      color: "white",
-    },
-    "& label.Mui-focused": {
-      color: "white",
-    },
-    "& .MuiInput-underline:after": {
-      borderBottomColor: "white",
-    },
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "white",
-        borderRadius: 50,
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "white",
-      },
-    },
-  },
-})(TextField);
-
 function AudioRecorder(props) {
+  const sampleRate = 44100;
   const classes = useStyles();
 
   const { width } = useWindowDimensions();
@@ -72,22 +49,25 @@ function AudioRecorder(props) {
   const [recordState, setRecordState] = useState(null);
   const [isRecording, setIsRecording] = useState(false);
 
-  const [sampleRate, setSampleRate] = useState(44100);
   const [bpm, setBpm] = useState(100);
 
+  const metronomeRef = useRef();
+  const [useMetronome, setUseMetronome] = useState(true);
+
   const startRecording = () => {
+    useMetronome && metronomeRef.current.startStop();
     setRecordState(RecordState.START);
     setIsRecording(true);
   };
 
   const stopRecording = () => {
+    useMetronome && metronomeRef.current.startStop();
     setRecordState(RecordState.STOP);
     setIsRecording(false);
   };
 
   const saveRecording = (audioData) => {
     //audioData contains blob and blobUrl
-    setSampleRate(44100);
 
     Swal.fire({
       // Swal properties
@@ -156,41 +136,47 @@ function AudioRecorder(props) {
   };
 
   return (
-    <div class="root">
-      <Typography variant="h2" className={classes.whiteColored}>
-        RecogNotes
-      </Typography>
-      <Typography variant="h6" className={classes.whiteColored}>
-        Press
-        <MicIcon style={{ fontSize: 20 }} />
-        to Start Recording
-      </Typography>
+    <div id="root">
+      <div id="row" className="no-margin">
+        <IOSSwitch
+          checked={useMetronome}
+          onChange={(event) => {
+            setUseMetronome(event.target.checked);
+          }}
+        />
+        <span style={{ color: "white" }}>
+          Metronome:{" "}
+          <span style={{ color: "#bebebe" }}>
+            {useMetronome ? "On" : "Off"}
+          </span>
+        </span>
+      </div>
+      <div>
+        <Typography variant="h2" className={classes.whiteColored}>
+          RecogNotes
+        </Typography>
+        <Typography variant="h6" className={classes.whiteColored}>
+          Press
+          <MicIcon style={{ fontSize: 20 }} />
+          to Start Recording
+        </Typography>
+      </div>
 
-      <CssTextField
-        variant="outlined"
-        value={bpm}
-        onChange={(event) => {
-          const input = event.target.value;
-          // if (!isNaN(input) && !isNaN(parseFloat(input)) && parseInt(input))
-          setBpm(parseInt(input));
-        }}
-        label="Recording BPM"
-        style={{
-          position: "absolute",
-          left: "50%",
-          top: "33%",
-          transform: "translate(-50%, -50%)",
-        }}
-        InputProps={{
-          style: { color: "white" },
-        }}
-        // validator={(input) => {
-        // if (isNaN(input) || isNaN(parseFloat(input))) return false;
-        // return parseInt(input) > 0;
-        // }}
-      />
+      <div>
+        <CssTextField
+          variant="outlined"
+          label="Recording BPM"
+          value={bpm}
+          onChange={(event) => {
+            setBpm(parseInt(event.target.value));
+          }}
+          InputProps={{
+            className: classes.whiteColored,
+          }}
+        />
+      </div>
 
-      <div style={{ marginTop: "15vh" }}>
+      <div>
         {isRecording ? (
           <IconButton onClick={stopRecording} className={classes.formButton}>
             <StopIcon className={classes.recordButtonIcon} />
@@ -200,22 +186,18 @@ function AudioRecorder(props) {
             <MicIcon className={classes.recordButtonIcon} />
           </IconButton>
         )}
+
+        <Metronome ref={metronomeRef} />
+
+        <AudioReactRecorder
+          state={recordState}
+          onStop={saveRecording}
+          canvasHeight={150}
+          canvasWidth={width}
+          foregroundColor="white"
+          backgroundColor="#191919"
+        />
       </div>
-
-      <div style={{ height: "25vh" }}>
-        <br />
-      </div>
-
-      {/* <Metronome /> */}
-
-      <AudioReactRecorder
-        state={recordState}
-        onStop={saveRecording}
-        canvasHeight={150}
-        canvasWidth={width}
-        foregroundColor="white"
-        backgroundColor="#191919"
-      />
     </div>
   );
 }

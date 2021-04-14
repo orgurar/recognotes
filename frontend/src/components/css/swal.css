@@ -1,0 +1,14 @@
+.swal-confirm {
+  background-color: #191919;
+}
+
+.swal-buttons {
+  background-color: white;
+  color: "#191919";
+  border-radius: 10px;
+}
+
+.swal-btn-text {
+  color: "white";
+  border-radius: 10px;
+}
