@@ -5,6 +5,8 @@ RecogNotes software will listen to your music through the microphone,
 and process the audio signals to music sheets in the easiest way posiible.
 Using our unique algorithm is easy and reliable.
 
+![](recognotes-cli.jpeg)
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
