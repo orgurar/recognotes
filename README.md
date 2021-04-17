@@ -27,15 +27,15 @@ sudo apt-get install ffmpeg libav-tools
 
 ## Running Options
 
-Recognotes software can be run in two main ways.
+Recognotes software can be run in two main options.
 
 ### CLI Application
 
 Using your preferred Command Line Interface, you can start recognotes as a python module.
 
-After cloning the repo, cd into '/recognotes' and start the main file using python.
+The CLI Tool will use python to record your audio, and to detect the notes sheets. It will create a `pdf` file using lilypond and pop it to the screen when is ready.
 
-Before starting, check [Installing](#Installing) to create a python enviroment and install required dependencies.
+To run the application, after cloning the repo, cd into '/recognotes' and start the main file using python.
 
 #### Installing
 
@@ -82,6 +82,8 @@ python main.py -f ../test-wavfiles/44.1kHz/1000.wav -s 44100
 ### Web Application
 
 Recognotes also has a web application you can use.
+
+The web application will record the audio at the client side, using `JavaScript`, and then send it to a `flask` server to analyze it and create the `pdf` output file. When the file return to the web service, it will create a new blank tab and show it to the user.
 
 In order to run it locally, you should run both backend and frontend at the same time.
 
