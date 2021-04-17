@@ -46,6 +46,9 @@ Install every requiered python module to run the CLI software by using the follo
 We recommend creating a new python virtual enviroment
 
 ```
+# cd into cli directory
+cd recognotes-cli/
+
 # creating and activating python venv
 python3 -m venv venv
 source venv/bin/activate
