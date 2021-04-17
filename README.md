@@ -13,7 +13,7 @@ and will serve your needs.
 - Live Audio Recording
 - Notes Detection and Music Sheets Generator
 - Passive Noise Canceling
-- Web / CLI Interface
+- Web / CLI Interfaces
 - Metronome Beats while Recording Audio
 
 ## Getting Started
