@@ -8,6 +8,14 @@ and will serve your needs.
 
 ![](recognotes.jpeg)
 
+## Features
+
+- Live Audio Recording
+- Notes Detection and Music Sheets Generator
+- Passive Noise Canceling
+- Web / CLI Interface
+- Metronome Beats while Recording Audio
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
