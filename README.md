@@ -6,7 +6,7 @@ and create your music sheets in the easiest way possible.
 Using our unique algorithm, this process is easy and reliable,
 and will serve your needs.
 
-[](recognotes.jpeg)
+![](recognotes.jpeg)
 
 ## Getting Started
 
