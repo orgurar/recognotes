@@ -10,7 +10,7 @@ and will serve your needs.
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-Before you continue, read [Running Options](#Running-Options) and decide which way you whould like to run the software.
+Before you continue, read [Running Options](#running-options) and decide which way you whould like to run the software.
 
 Then, check [Prerequisites](#Prerequisites) for an early manual installations.
 
