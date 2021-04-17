@@ -64,7 +64,18 @@ python main.py
 Moreover, to get the full usage instructions, use may use the following command
 
 ```
-python main.py -h
+user@recognotes:~$ python main.py -h
+
+usage: main.py [-h] [-f FILE] [-s SAMPLE_RATE] [-p]
+
+Analyze audio signals and notes detection.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f FILE, --file FILE  input wavfile
+  -s SAMPLE_RATE, --sample-rate SAMPLE_RATE
+  -p, --plot            plot chunks output
+
 ```
 
 ### Running Tests
