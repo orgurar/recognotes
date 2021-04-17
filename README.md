@@ -25,11 +25,11 @@ sudo apt-get install lilypond
 sudo apt-get install ffmpeg libav-tools
 ```
 
-# Running Options
+## Running Options
 
 Recognotes software can be run in two main ways.
 
-## CLI Application
+### CLI Application
 
 Using your preferred Command Line Interface, you can start recognotes as a python module.
 
@@ -37,7 +37,7 @@ After cloning the repo, cd into '/recognotes' and start the main file using pyth
 
 Before starting, check [Installing](#Installing) to create a python enviroment and install required dependencies.
 
-### Installing
+#### Installing
 
 Install every requiered python module to run the CLI software by using the following commands.
 
@@ -49,8 +49,10 @@ python3 -m venv venv
 source venv/bin/activate
 
 # download required modules
-pip install -r path/to/requirements.txt
+pip install -r requirements.txt
 ```
+
+#### Running The CLI Application
 
 After installing the needed dependencies, you can run the software on your machine
 
@@ -65,13 +67,25 @@ Moreover, to get the full usage instructions, use may use the following command
 python main.py -h
 ```
 
-## Web Application
+### Running Tests
+
+In 'test-wavfiles' folder, you will find some unique-frequency `.wav` file in different sample rates.
+As we mentioned in the usage instructions, you can specify the file and sample rate you would like to try.
+
+For example, run the software with the 1000.wav file in the 44.1kHz dir:
+
+```
+cd recognotes/
+python main.py -f ../test-wavfiles/44.1kHz/1000.wav -s 44100
+```
+
+### Web Application
 
 Recognotes also has a web application you can use.
 
 In order to run it locally, you should run both backend and frontend at the same time.
 
-### Backend Installation and Activation
+#### Backend Installation and Activation
 
 Install every requiered python module to run the server side software by using the following commands.
 
@@ -86,7 +100,7 @@ python3 -m venv venv
 source venv/bin/activate
 
 # download required modules
-pip install -r path/to/requirements.txt
+pip install -r requirements.txt
 
 # deactivate venv
 deactivate
@@ -96,7 +110,7 @@ sudo chmod +x ./start-server
 ./start-server
 ```
 
-### Frontend Installation and Activation
+#### Frontend Installation and Activation
 
 In order to install frontend dependencies, you just have to install the required `npm` packages, then run the web client using `npm start`
 
@@ -109,18 +123,6 @@ npm i
 
 # start frontend at localhost:3000
 npm start
-```
-
-### Running Tests
-
-In `test-wavfiles` folder, you will find some unique-frequency .wav file in a different sample rates.
-As we mentioned in the usage instructions, you can specify the file and sample rate you would like to try.
-
-For example, run the software with the 1000.wav file in the 44.1kHz dir:
-
-```
-cd recognotes/
-python main.py -f ../test-wavfiles/44.1kHz/1000.wav -s 44100
 ```
 
 ### Output
