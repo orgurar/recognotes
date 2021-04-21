@@ -3,7 +3,7 @@
 
 \header { %! abjad.LilyPondFile._get_formatted_blocks()
     tagline = ##f
-    title = \markup { metronome }
+    title = \markup { asd }
 } %! abjad.LilyPondFile._get_formatted_blocks()
 
 \layout {}
@@ -14,17 +14,17 @@
     \new Staff
     {
         \tempo 4=100
-        r2
-        a''16
-        r8
-        a''16
-        r8
-        a''16
         r4
-        a''16
+        a16
+        r16
+        as8
+        r16
+        as16
         r8
-        a''16
-        r8
-        a''16
+        d'8
+        r2
+        e''16
+        r4
+        as4
     }
 } %! abjad.LilyPondFile._get_formatted_blocks()

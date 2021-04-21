@@ -15,7 +15,7 @@ See Prerequisites for an early manual installations.
 
 ### Prerequisites
 
-Recognotes runs on python 3.
+Recognotes runs on python 3.8.
 
 Also, on an Ubuntu machine make sure you run the following commands
 

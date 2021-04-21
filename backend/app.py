@@ -12,16 +12,21 @@ from werkzeug.utils import secure_filename
 from main import main as audio_main
 
 
-# app = Flask(__name__, static_url_path='', static_folder='build')
-app = Flask(__name__)
-CORS(app)
+PROD = False
+
+if PROD:
+    app = Flask(__name__, static_url_path='', static_folder='build')
+else:
+    app = Flask(__name__)
+    CORS(app)
 
 app.config['UPLOADS_DIR'] = "./tmp_wavfiles"
 
 
-# @app.route("/", defaults={'path': ''})
-# def serve(path):
-# return send_from_directory(app.static_folder, 'index.html')
+if PROD:
+    @app.route("/", defaults={'path': ''})
+    def serve(path):
+        return send_from_directory(app.static_folder, 'index.html')
 
 
 @app.route('/proccess_audio', methods=['POST'])
@@ -54,10 +59,11 @@ def proccess_audio():
     wavfile = request.files['file']
     wavfile_path = os.path.join(
         app.config['UPLOADS_DIR'], secure_filename(wavfile.name + '.wav'))
+    wavfile.save(wavfile_path)
+
     # also creates the path for the PDF file
     output_pdf_path = os.path.join(
         app.config['UPLOADS_DIR'], secure_filename(wavfile.name + '.pdf'))
-    wavfile.save(wavfile_path)
 
     # getting the np array of the wav file and fs of the file
     audio_content, sample_rate = utils.get_wav_content(
@@ -69,8 +75,12 @@ def proccess_audio():
         abort(500)
 
     # calling main function
-    audio_main(audio_content, sample_rate, False,
-               request_data['bpm'], request_data['sheets_title'], output_pdf_path)
+    audio_main(audio_content,
+               sample_rate=sample_rate,
+               plot_output=False,
+               bpm=request_data['bpm'],
+               title=request_data['sheets_title'],
+               pdf_path=output_pdf_path)
 
     # sending back PDF file using its path
     try:
