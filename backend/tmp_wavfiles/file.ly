@@ -3,7 +3,7 @@
 
 \header { %! abjad.LilyPondFile._get_formatted_blocks()
     tagline = ##f
-    title = \markup { asd }
+    title = \markup { "our company is gorgeous" }
 } %! abjad.LilyPondFile._get_formatted_blocks()
 
 \layout {}
@@ -13,18 +13,7 @@
 \score { %! abjad.LilyPondFile._get_formatted_blocks()
     \new Staff
     {
-        \tempo 4=100
-        r4
-        a16
-        r16
-        as8
-        r16
-        as16
-        r8
-        d'8
-        r2
-        e''16
-        r4
-        as4
+        \tempo 4=120
+        r1
     }
 } %! abjad.LilyPondFile._get_formatted_blocks()

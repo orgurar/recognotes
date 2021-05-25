@@ -18,15 +18,13 @@ if PROD:
     app = Flask(__name__, static_url_path='', static_folder='build')
 else:
     app = Flask(__name__)
-    CORS(app)
 
 app.config['UPLOADS_DIR'] = "./tmp_wavfiles"
-
 
 if PROD:
     @app.route("/", defaults={'path': ''})
     def serve(path):
-        return send_from_directory(app.static_folder, 'index.html')
+        return send_from_directory(app.static_folder, 'build.html')
 
 
 @app.route('/proccess_audio', methods=['POST'])
@@ -84,6 +82,10 @@ def proccess_audio():
 
     # sending back PDF file using its path
     try:
-        return send_file(output_pdf_path)
+        return send_file(output_pdf_path, as_attachment=True)
     except FileNotFoundError:
         abort(404)
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=80)
