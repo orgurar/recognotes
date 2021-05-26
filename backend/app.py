@@ -1,9 +1,10 @@
-from flask import Flask, request, abort, jsonify, send_file, send_from_directory
+from flask import Flask, request, abort, jsonify, send_file, send_from_directory, make_response
 from flask_cors import CORS
 import flask_utils as utils
 
 import os
 import json
+import uuid
 
 from cerberus import Validator
 from werkzeug.utils import secure_filename
@@ -60,8 +61,11 @@ def proccess_audio():
     wavfile.save(wavfile_path)
 
     # also creates the path for the PDF file
+    pdf_signature = uuid.uuid4().hex[:16]
+    pdf_filename = f"recognotes_{pdf_signature}.pdf"
+
     output_pdf_path = os.path.join(
-        app.config['UPLOADS_DIR'], secure_filename(wavfile.name + '.pdf'))
+        app.config['UPLOADS_DIR'], secure_filename(pdf_filename))
 
     # getting the np array of the wav file and fs of the file
     audio_content, sample_rate = utils.get_wav_content(
@@ -80,9 +84,17 @@ def proccess_audio():
                title=request_data['sheets_title'],
                pdf_path=output_pdf_path)
 
-    # sending back PDF file using its path
+    # generate response
+    response = make_response(pdf_signature, 200)
+    response.mimetype = "text/plain"
+    return response
+
+
+@ app.route('/get-file/<file_id>', methods=['GET'])
+def get_file(file_id):
+    # also creates the path for the PDF file
     try:
-        return send_file(output_pdf_path, as_attachment=True)
+        return send_from_directory(app.config['UPLOADS_DIR'], f"recognotes_{file_id}.pdf", as_attachment=False)
     except FileNotFoundError:
         abort(404)
 
