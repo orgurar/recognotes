@@ -3,7 +3,7 @@
 
 \header { %! abjad.LilyPondFile._get_formatted_blocks()
     tagline = ##f
-    title = \markup { please }
+    title = \markup { vladi }
 } %! abjad.LilyPondFile._get_formatted_blocks()
 
 \layout {}
@@ -13,20 +13,13 @@
 \score { %! abjad.LilyPondFile._get_formatted_blocks()
     \new Staff
     {
-        \tempo 4=100
-        b,16
+        \tempo 4=60
         r4
-        b,16
-        r2
-        fs,16
         r8
-        g16
-        r2
-        g16
-        r4
-        d8
+        r8
         r16
-        g16
+        r8
+        r2
         r4
     }
 } %! abjad.LilyPondFile._get_formatted_blocks()

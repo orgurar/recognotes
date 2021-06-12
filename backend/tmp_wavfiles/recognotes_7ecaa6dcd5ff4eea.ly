@@ -3,7 +3,7 @@
 
 \header { %! abjad.LilyPondFile._get_formatted_blocks()
     tagline = ##f
-    title = \markup { please }
+    title = \markup { mazor }
 } %! abjad.LilyPondFile._get_formatted_blocks()
 
 \layout {}
@@ -13,20 +13,14 @@
 \score { %! abjad.LilyPondFile._get_formatted_blocks()
     \new Staff
     {
-        \tempo 4=100
-        b,16
-        r4
-        b,16
-        r2
-        fs,16
-        r8
-        g16
-        r2
-        g16
-        r4
-        d8
+        \tempo 4=120
+        r2.
+        a16
         r16
-        g16
+        a'4
+        a'8
+        r16
+        a'2
         r4
     }
 } %! abjad.LilyPondFile._get_formatted_blocks()

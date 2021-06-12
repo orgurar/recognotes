@@ -18,6 +18,7 @@ if PROD:
     app = Flask(__name__, static_url_path='', static_folder='build')
 else:
     app = Flask(__name__)
+    CORS(app)
 
 app.config['UPLOADS_DIR'] = "./tmp_wavfiles"
 
@@ -82,7 +83,7 @@ def proccess_audio():
 
     # sending back PDF file using its path
     try:
-        return send_file(output_pdf_path, as_attachment=True)
+        return send_file(output_pdf_path)
     except FileNotFoundError:
         abort(404)
 

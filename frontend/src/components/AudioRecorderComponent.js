@@ -73,8 +73,7 @@ function AudioRecorder(props) {
       // Swal properties
       icon: "success",
       title: '<span style="color: white">Recording Saved!</span>',
-      text:
-        "Please Enter the Title for the Output Audio Sheets...\n You can press cancel and record again",
+      text: "Please Enter the Title for the Output Audio Sheets...\n You can press cancel and record again",
       input: "text",
       inputPlaceholder: "Enter Your Title Here",
       showCancelButton: true,
@@ -127,6 +126,8 @@ function AudioRecorder(props) {
             window.open(fileURL);
           })
           .catch((error) => {
+            console.log("HERE");
+            console.error(error);
             Swal.showValidationMessage(`Request failed: ${error}`);
           });
       },
