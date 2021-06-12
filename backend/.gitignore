@@ -2,6 +2,7 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,flask,audio
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,flask,audio
 
+tmp_wavfiles/*
 
 ### Audio ###
 *.aif
