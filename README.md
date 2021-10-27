@@ -176,8 +176,9 @@ RecogNotes will show a pdf file on screen that contains your musical sheet outpu
 
 ## Authors
 
-- **Or Amit Landesman** - Owner and Developer -[oramit1](https://gitlab.com/oramit1)
-- **Or Gur Arie** - Owner and Developer - [orgurar](https://gitlab.com/orgurar)
+- **Or Gur Arie** - Owner and Main Developer - [orgurar](https://github.com/orgurar)
+- **Or Amit Landesman** - Owner and Main Developer -[oramit1](https://gitlab.com/oramit1)
+- **Ofer Segev** - Mentor and Contributor = [segevofer](https://github.com/segevofer)
 
 ## License
 
