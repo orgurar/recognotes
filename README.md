@@ -1,6 +1,6 @@
 # RecogNotes
 
-Audio analyzer and notes detection for musicians.
+Audio analyzer provideing real-time notes detection for musicians.
 RecogNotes software will listen to your music through the microphone,
 and create your music sheets in the easiest way possible.
 Using our unique algorithm, this process is easy and reliable,
