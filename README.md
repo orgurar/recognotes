@@ -76,7 +76,7 @@ $ python main.py
 
 Moreover, to get the full usage instructions, use may use the following command
 
-```
+```bash
 user@recognotes:~$ python main.py -h
 
 usage: main.py [-h] [-f FILE] [-s SAMPLE_RATE] [-p]
@@ -140,7 +140,7 @@ $ ./start-server
 
 In order to install frontend dependencies, you just have to install the required `npm` packages, then run the web client using `npm start`
 
-```
+```bash
 # frontend directory
 $ cd frontend/
 
