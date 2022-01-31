@@ -30,9 +30,9 @@ Recognotes runs on the python3.8, please make sure you have this or a newer vers
 
 Also, on an Ubuntu machine, download the following items using the commands below
 
-```
-sudo apt-get install lilypond
-sudo apt-get install ffmpeg libav-tools
+```bash
+$ sudo apt-get install lilypond
+$ sudo apt-get install ffmpeg libav-tools
 ```
 
 ## Running Options
@@ -53,25 +53,25 @@ Install every requiered python module to run the CLI software by using the follo
 
 We recommend creating a new python virtual enviroment
 
-```
+```bash
 # cd into cli directory
-cd recognotes-cli/
+$ cd recognotes-cli/
 
 # creating and activating python venv
-python3 -m venv venv
-source venv/bin/activate
+$ python3 -m venv venv
+$ source venv/bin/activate
 
 # download required modules
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 #### Running The CLI Application
 
 After installing the needed dependencies, you can run the software on your machine
 
-```
-cd recognotes/
-python main.py
+```bash
+$ cd recognotes/
+$ python main.py
 ```
 
 Moreover, to get the full usage instructions, use may use the following command
@@ -98,9 +98,9 @@ As we mentioned in the usage instructions, you can specify the file and sample r
 
 For example, run the software with the 1000.wav file in the 44.1kHz dir:
 
-```
-cd recognotes/
-python main.py -f ../test-wavfiles/44.1kHz/1000.wav -s 44100
+```bash
+$ cd recognotes/
+$ python main.py -f ../test-wavfiles/44.1kHz/1000.wav -s 44100
 ```
 
 ### Web Application
@@ -117,23 +117,23 @@ Install every requiered python module to run the server side software by using t
 
 We recommend creating a new python virtual enviroment
 
-```
+```bash
 # backend directory
-cd backend/
+$ cd backend/
 
 # creating and activating python venv
-python3 -m venv venv
-source venv/bin/activate
+$ python3 -m venv venv
+$ source venv/bin/activate
 
 # download required modules
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 
 # deactivate venv
-deactivate
+$ deactivate
 
 # start server at loaclhost:5000 using our script
-sudo chmod +x ./start-server
-./start-server
+$ sudo chmod +x ./start-server
+$ ./start-server
 ```
 
 #### Frontend Installation and Activation
@@ -142,13 +142,13 @@ In order to install frontend dependencies, you just have to install the required
 
 ```
 # frontend directory
-cd frontend/
+$ cd frontend/
 
 # install npm packages
-npm i
+$ npm i
 
 # start frontend at localhost:3000
-npm start
+$ npm start
 ```
 
 ### Output
